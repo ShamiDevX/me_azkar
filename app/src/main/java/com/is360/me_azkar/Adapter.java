@@ -132,7 +132,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
     public void whatsappShareIntent(final int position) {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, getDisplayData(position));
+        intent.putExtra(Intent.EXTRA_TEXT, getDisplayData());
         intent.setType("text/plain");
         intent.setPackage("com.whatsapp");
         activity.startActivity(Intent.createChooser(intent, "Share To ..."));
@@ -180,7 +180,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
     public class viewHolder extends RecyclerView.ViewHolder {
         TextView supplication_id, supplication_repeat, supplication_important_info, supplication, supplication_translation, supplication_detail, supplication_reference_no;
-        Button shareButton, waShareButton, copyButton , increase, decrease;
+        Button shareButton, waShareButton, copyButton;
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         public viewHolder(@NonNull View itemView) {
