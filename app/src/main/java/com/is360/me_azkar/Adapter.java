@@ -6,8 +6,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +21,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.is360.me_azkar.data.model.FetchedModel;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
     Context context;
     Activity activity;
-    ArrayList<Model> arrayList;
-    DatabaseHelper databaseHelper;
-    final int position = 0;
+//    ArrayList<Model> arrayList;
+//    DatabaseHelper databaseHelper;
+    List<FetchedModel> arrayList;
+//    final int position = 0;
+    public static float ourFontSize = 20f;
 
     Boolean language = MainActivity.getLanguage();
 
-    public Adapter(Context context, Activity activity, ArrayList<Model> arrayList) {
+//    public Adapter(Context context, Activity activity, ArrayList<Model> arrayList) {
+//        this.context = context;
+//        this.activity = activity;
+//        this.arrayList = arrayList;
+//    }
+    public Adapter(Context context ,Activity activity, List<FetchedModel> arrayList){
         this.context = context;
         this.activity = activity;
         this.arrayList = arrayList;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("save", Context.MODE_PRIVATE);
+        ourFontSize = sharedPreferences.getFloat("font_size", 20f);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -46,9 +60,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
     @Override
     public void onBindViewHolder( final Adapter.viewHolder holder, final int position) {
 
-        holder.supplication_id.setText(arrayList.get(position).getSupplication_id());
-        holder.supplication_repeat.setText("Recite: " + arrayList.get(position).getSupplication_repeat() + " time[s]");
+        holder.supplication_id.setText(arrayList.get(position).getSupplication_order());
+        holder.supplication_repeat.setText("Recite: " + arrayList.get(position).getSupplication_repeat_no() + " time[s]");
         holder.supplication.setText(arrayList.get(position).getSupplication());
+        holder.supplication.setTextSize(TypedValue.COMPLEX_UNIT_SP , ourFontSize);
         if (language) {
             holder.supplication_translation.setText(arrayList.get(position).getSupplication_translation_en());
             holder.supplication_important_info.setText(arrayList.get(position).getSupplication_important_info_en());
@@ -59,12 +74,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
             holder.supplication_important_info.setText(arrayList.get(position).getSupplication_important_info_ur());
             holder.supplication_detail.setText(arrayList.get(position).getSupplication_detail_ur());
         }
-        holder.supplication_reference_no.setText(arrayList.get(position).getSupplication_reference_no());
+        holder.supplication_reference_no.setText(arrayList.get(position).getREFERENCES_ID());
 
         holder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareIntent();
+                shareIntent(position);
             }
         });
 
@@ -85,11 +100,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("label", getDisplayData());
+                ClipData clip = ClipData.newPlainText("label", getDisplayData(position));
                 clipboard.setPrimaryClip(clip);
             }
         });
-        databaseHelper = new DatabaseHelper(context);
+//        databaseHelper = new DatabaseHelper(context);
     }
 
     @Override
@@ -98,32 +113,35 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
     }
 
 
-    public void shareIntent() {
+    public void shareIntent(int position) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_SUBJECT, "ME AZKAR");
-        intent.putExtra(Intent.EXTRA_TEXT, getDisplayData());
+        intent.putExtra(Intent.EXTRA_TEXT, getDisplayData(position));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setType("text/plain");
         try {
-            context.startActivity(Intent.createChooser(intent, "Share To..."));
+            activity.startActivity(Intent.createChooser(intent, "Share To..."));
         }
         catch (Exception e) {
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+    public static void updateTextSize(float newSize) {
+        ourFontSize = newSize;
+    }
 
     public void whatsappShareIntent(final int position) {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, getDisplayData());
+        intent.putExtra(Intent.EXTRA_TEXT, getDisplayData(position));
         intent.setType("text/plain");
         intent.setPackage("com.whatsapp");
-        context.startActivity(Intent.createChooser(intent, "Share To ..."));
+        activity.startActivity(Intent.createChooser(intent, "Share To ..."));
     }
 
-    public String getDisplayData() {
+    public String getDisplayData(int position) {
         if(language) {
             String data = "" +
-                    "Supplication ID: "+arrayList.get(position).getSupplication_id()+" | Recite " + arrayList.get(position).getSupplication_repeat() + " time[s]" +
+                    "Supplication ID: "+arrayList.get(position).getSupplication_order()+" | Recite " + arrayList.get(position).getSupplication_repeat_no() + " time[s]" +
                     "\n" +
                     arrayList.get(position).getSupplication_important_info_en() +
                     "\n\n" +
@@ -133,7 +151,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
                     "\n\n" +
                     arrayList.get(position).getSupplication_detail_en() +
                     "\n\n" +
-                    arrayList.get(position).getSupplication_reference_no() +
+                    arrayList.get(position).getREFERENCES_ID() +
                     "\n\n" +
                     "https://instagram.com/islamstatus360" +
                     "";
@@ -141,7 +159,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
         }
         else {
             String data = "" +
-                    "Supplication ID: "+arrayList.get(position).getSupplication_id()+" | Recite " + arrayList.get(position).getSupplication_repeat() + " time[s]" +
+                    "Supplication ID: "+arrayList.get(position).getSupplication_order()+" | Recite " + arrayList.get(position).getSupplication_repeat_no() + " time[s]" +
                     "\n" +
                     arrayList.get(position).getSupplication_important_info_ur() +
                     "\n\n" +
@@ -151,7 +169,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
                     "\n\n" +
                     arrayList.get(position).getSupplication_detail_ur() +
                     "\n\n" +
-                    arrayList.get(position).getSupplication_reference_no() +
+                    arrayList.get(position).getREFERENCES_ID() +
                     "\n\n" +
                     "https://instagram.com/islamstatus360" +
                     "";
@@ -162,7 +180,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
     public class viewHolder extends RecyclerView.ViewHolder {
         TextView supplication_id, supplication_repeat, supplication_important_info, supplication, supplication_translation, supplication_detail, supplication_reference_no;
-        Button shareButton, waShareButton, copyButton;
+        Button shareButton, waShareButton, copyButton , increase, decrease;
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         public viewHolder(@NonNull View itemView) {

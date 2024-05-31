@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/app_tagline"
-            android:rowCount="3"
+            android:rowCount="4"
             android:columnCount="2"
             android:layout_margin="20dp"
             >
@@ -130,44 +130,44 @@
             </androidx.cardview.widget.CardView>
 
             <!--    Second Row    -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/switchLangCard"
-                android:clickable="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="10dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="20dp"
-                    android:layout_gravity="center_vertical|center_horizontal">
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/switchLangCard"-->
+<!--                android:clickable="true"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_row="1"-->
+<!--                android:layout_column="0"-->
+<!--                android:layout_gravity="fill"-->
+<!--                android:layout_rowWeight="1"-->
+<!--                android:layout_columnWeight="1"-->
+<!--                android:layout_margin="10dp"-->
+<!--                app:cardCornerRadius="10dp"-->
+<!--                app:cardElevation="5dp"-->
+<!--                >-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:gravity="center"-->
+<!--                    android:padding="20dp"-->
+<!--                    android:layout_gravity="center_vertical|center_horizontal">-->
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:src="@drawable/geography_52px"/>
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="52dp"-->
+<!--                        android:src="@drawable/geography_52px"/>-->
 
-                    <Switch
-                        android:id="@+id/switchLanguage"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:text="Urdu" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+<!--                    <Switch-->
+<!--                        android:id="@+id/switchLanguage"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:text="Urdu" />-->
+<!--                </LinearLayout>-->
+<!--            </androidx.cardview.widget.CardView>-->
 
             <!--    Third Row    -->
             <androidx.cardview.widget.CardView
@@ -194,7 +194,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
-                        android:src="@drawable/share_52px" />
+                        android:src="@drawable/share_icon" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -203,6 +203,43 @@
                         android:text="Share App"
                         android:textAlignment="center"
                         android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/changeTextSizeCV"
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_gravity="fill"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:layout_gravity="center_vertical|center_horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:src="@drawable/setting_icon"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Settings"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"/>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -230,7 +267,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
-                        android:src="@drawable/more_52px"/>
+                        android:src="@drawable/more_horiz"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -265,7 +302,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
-                        android:src="@drawable/info_104px"/>
+                        android:src="@drawable/info_icon"/>
 
                     <TextView
                         android:layout_width="wrap_content"
