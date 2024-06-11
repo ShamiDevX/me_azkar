@@ -1,13 +1,16 @@
 package com.is360.me_azkar;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +22,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.is360.me_azkar.data.model.FetchedModel;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
     Context context;
     Activity activity;
-    ArrayList<Model> arrayList;
-    DatabaseHelper databaseHelper;
+//    ArrayList<Model> arrayList;
+//    DatabaseHelper databaseHelper;
+    List<FetchedModel> arrayList;
+//    final int position = 0;
+    public static float ourFontSize = 20f;
+
     Boolean language = MainActivity.getLanguage();
 
-    public Adapter(Context context, Activity activity, ArrayList<Model> arrayList) {
+//    public Adapter(Context context, Activity activity, ArrayList<Model> arrayList) {
+//        this.context = context;
+//        this.activity = activity;
+//        this.arrayList = arrayList;
+//    }
+    public Adapter(Context context ,Activity activity, List<FetchedModel> arrayList){
         this.context = context;
         this.activity = activity;
         this.arrayList = arrayList;
-        databaseHelper = new DatabaseHelper(context);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("save", Context.MODE_PRIVATE);
+        ourFontSize = sharedPreferences.getFloat("font_size", 20f);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -43,21 +59,23 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final Adapter.viewHolder holder, final int position) {
-        Model model = arrayList.get(position);
-        holder.supplication_id.setText(model.getSupplication_id());
-        holder.supplication_repeat.setText("Recite: " + model.getSupplication_repeat() + " time[s]");
-        holder.supplication.setText(model.getSupplication());
+    public void onBindViewHolder(final Adapter.viewHolder holder, @SuppressLint("RecyclerView") final int position) {
+
+        holder.supplication_id.setText(arrayList.get(position).getSupplication_order());
+        holder.supplication_repeat.setText("Recite: " + arrayList.get(position).getSupplication_repeat_no() + " time[s]");
+        holder.supplication.setText(arrayList.get(position).getSupplication());
+        holder.supplication.setTextSize(TypedValue.COMPLEX_UNIT_SP , ourFontSize);
         if (language) {
-            holder.supplication_translation.setText(model.getSupplication_translation_en());
-            holder.supplication_important_info.setText(model.getSupplication_important_info_en());
-            holder.supplication_detail.setText(model.getSupplication_detail_en());
-        } else {
-            holder.supplication_translation.setText(model.getSupplication_translation_ur());
-            holder.supplication_important_info.setText(model.getSupplication_important_info_ur());
-            holder.supplication_detail.setText(model.getSupplication_detail_ur());
+            holder.supplication_translation.setText(arrayList.get(position).getSupplication_translation_en());
+            holder.supplication_important_info.setText(arrayList.get(position).getSupplication_important_info_en());
+            holder.supplication_detail.setText(arrayList.get(position).getSupplication_detail_en());
         }
-        holder.supplication_reference_no.setText(model.getSupplication_reference_no());
+        else {
+            holder.supplication_translation.setText(arrayList.get(position).getSupplication_translation_ur());
+            holder.supplication_important_info.setText(arrayList.get(position).getSupplication_important_info_ur());
+            holder.supplication_detail.setText(arrayList.get(position).getSupplication_detail_ur());
+        }
+        holder.supplication_reference_no.setText(arrayList.get(position).getREFERENCES_ID());
 
         holder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +89,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
             public void onClick(View v) {
                 try {
                     whatsappShareIntent(position);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     Toast.makeText(context, "Error: In this time this feature is not supported in your mobile", Toast.LENGTH_LONG).show();
                 }
             }
@@ -85,6 +105,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
                 clipboard.setPrimaryClip(clip);
             }
         });
+//        databaseHelper = new DatabaseHelper(context);
     }
 
     @Override
@@ -97,13 +118,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_SUBJECT, "ME AZKAR");
         intent.putExtra(Intent.EXTRA_TEXT, getDisplayData(position));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setType("text/plain");
         try {
             activity.startActivity(Intent.createChooser(intent, "Share To..."));
-        } catch (Exception e) {
-            Toast.makeText(context, "Unable to share..", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
         }
+        catch (Exception e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+    public static void updateTextSize(float newSize) {
+        ourFontSize = newSize;
     }
 
     public void whatsappShareIntent(final int position) {
@@ -115,40 +140,39 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
     }
 
     public String getDisplayData(int position) {
-
-        Model model = arrayList.get(position);
-        if (language) {
+        if(language) {
             String data = "" +
-                    "Supplication ID: " + model.getSupplication_id() + " | Recite " + model.getSupplication_repeat() + " time[s]" +
+                    "Supplication ID: "+arrayList.get(position).getSupplication_order()+" | Recite " + arrayList.get(position).getSupplication_repeat_no() + " time[s]" +
                     "\n" +
-                    model.getSupplication_important_info_en() +
+                    arrayList.get(position).getSupplication_important_info_en() +
                     "\n\n" +
-                    model.getSupplication() +
+                    arrayList.get(position).getSupplication() +
                     "\n\n" +
-                    model.getSupplication_translation_en() +
+                    arrayList.get(position).getSupplication_translation_en() +
                     "\n\n" +
-                    model.getSupplication_detail_en() +
+                    arrayList.get(position).getSupplication_detail_en() +
                     "\n\n" +
-                    model.getSupplication_reference_no() +
+                    arrayList.get(position).getREFERENCES_ID() +
                     "\n\n" +
-                    "https://instagram.com/islamstatus360" +
+                    "https://play.google.com/store/apps/details?id=com.is360.me_azkar" +
                     "";
             return data;
-        } else {
+        }
+        else {
             String data = "" +
-                    "Supplication ID: " + model.getSupplication_id() + " | Recite " + model.getSupplication_repeat() + " time[s]" +
+                    "Supplication ID: "+arrayList.get(position).getSupplication_order()+" | Recite " + arrayList.get(position).getSupplication_repeat_no() + " time[s]" +
                     "\n" +
-                    model.getSupplication_important_info_ur() +
+                    arrayList.get(position).getSupplication_important_info_ur() +
                     "\n\n" +
-                    model.getSupplication() +
+                    arrayList.get(position).getSupplication() +
                     "\n\n" +
-                    model.getSupplication_translation_ur() +
+                    arrayList.get(position).getSupplication_translation_ur() +
                     "\n\n" +
-                    model.getSupplication_detail_ur() +
+                    arrayList.get(position).getSupplication_detail_ur() +
                     "\n\n" +
-                    model.getSupplication_reference_no() +
+                    arrayList.get(position).getREFERENCES_ID() +
                     "\n\n" +
-                    "https://instagram.com/islamstatus360" +
+                    "https://play.google.com/store/apps/details?id=com.is360.me_azkar" +
                     "";
             return data;
         }
@@ -174,10 +198,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
             waShareButton = itemView.findViewById(R.id.whatsappButton);
             copyButton = itemView.findViewById(R.id.copyButton);
 
-            if (language) {
+            if(language) {
                 supplication_translation.setTypeface(Typeface.DEFAULT);
                 supplication_important_info.setTypeface(Typeface.DEFAULT);
-            } else {
+            }
+            else {
                 Typeface typeface = itemView.getResources().getFont(R.font.jameel_noori_nastaleeq_regular);
                 supplication_translation.setTypeface(typeface);
                 supplication_important_info.setTypeface(typeface);

@@ -219,11 +219,12 @@
                     >
 
                     <ImageView
-                        android:id="@+id/blogger"
+                        android:id="@+id/tiktok"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_margin="10dp"
-                        android:src="@drawable/blogger"
+                        android:padding="8dp"
+                        android:src="@drawable/tiktok"
                         android:background="@drawable/rounded_corner"
                         android:backgroundTint="@color/colorPrimary"
                         />
@@ -295,7 +296,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Join Latest WhatsApp Group"
+                android:text="Join Latest WhatsApp Channel"
                 android:padding="10dp"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/colorWhite"

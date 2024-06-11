@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class About extends AppCompatActivity {
 
-    ImageView blog, facebook, youtube, instagram, twitter;
+    ImageView tiktok, facebook, youtube, instagram, twitter;
     CardView whatsappGroup;
     TextView mail,waNumber;
 
@@ -35,24 +35,24 @@ public class About extends AppCompatActivity {
         waNumber = findViewById(R.id.app_number);
         whatsappGroup = findViewById(R.id.joinWhatsapp);
 
-        blog = findViewById(R.id.blogger);
+        tiktok = findViewById(R.id.tiktok);
         facebook = findViewById(R.id.facebook);
         youtube = findViewById(R.id.youtube);
         instagram = findViewById(R.id.instagram);
         twitter = findViewById(R.id.twitter);
 
 
-        blog.setOnClickListener(new View.OnClickListener() {
+        tiktok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSocialMedia("https://islamstatus360.blogspot.com", "com.android.chrome");
+                openSocialMedia("https://www.tiktok.com/@islamstatus360", "com.android.chrome");
             }
         });
 
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSocialMedia("fb://page/2203658966582320", "");
+                openSocialMedia("https://facebook.com/islamstatus360", "com.android.chrome");
             }
         });
 
@@ -93,7 +93,8 @@ public class About extends AppCompatActivity {
         whatsappGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSocialMedia("https://islamstatus360.github.io/wagroup", "com.android.chrome");
+//                openSocialMedia("https://islamstatus360.github.io/wagroup", "com.android.chrome");
+                openSocialMedia("https://whatsapp.com/channel/0029VaCXfSF1NCrXOeyGBk3l", "com.android.chrome");
             }
         });
     }

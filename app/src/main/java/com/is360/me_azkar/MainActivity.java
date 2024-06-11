@@ -15,13 +15,15 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.is360.me_azkar.ui.view.SettingsActivity;
+
 public class MainActivity extends AppCompatActivity {
-    DatabaseHelper databaseHelper;
+//    DatabaseHelper databaseHelper;
     Context context;
     private static String supplication;
-    private static Boolean language = true;
-    Switch aSwitch;
-    CardView btnMorning, btnEvening, cardLanguageButton, cardShareButton, cardMoreButton, cardAboutButton;
+    private static Boolean language;
+//    Switch aSwitch;
+    CardView btnMorning, btnEvening, cardLanguageButton, cardShareButton, cardMoreButton, cardAboutButton, changeTextCV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,80 +37,82 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        databaseHelper = new DatabaseHelper(this);
-        databaseHelper.openDataBase();
-        databaseHelper.refresh();
-        databaseHelper.recreate();
+//        databaseHelper = new DatabaseHelper(this);
+//        databaseHelper.openDataBase();
+//        databaseHelper.refresh();
+//        databaseHelper.recreate();
 
         btnMorning = findViewById(R.id.btnMorning);
         btnEvening = findViewById(R.id.btnEvening);
-        aSwitch = findViewById(R.id.switchLanguage);
-        cardLanguageButton = findViewById(R.id.switchLangCard);
+//        aSwitch = findViewById(R.id.switchLanguage);
+//        cardLanguageButton = findViewById(R.id.switchLangCard);
         cardShareButton = findViewById(R.id.cardShareButton);
         cardMoreButton = findViewById(R.id.cardMoreButton);
         cardAboutButton = findViewById(R.id.cardAboutButton);
+        changeTextCV = findViewById(R.id.changeTextSizeCV);
 
 
         // Save State in Shared Preferences
         context = getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences("save", context.MODE_PRIVATE);
-        aSwitch.setChecked(sharedPreferences.getBoolean("value", false));
-
-        aSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (aSwitch.isChecked()) {
-                    SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
-                    editor.putBoolean("value", true);
-                    editor.apply();
-                    aSwitch.setText("English");
-                    aSwitch.setChecked(true);
-                    setLanguage(true);
-                } else {
-                    SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
-                    editor.putBoolean("value", false);
-                    aSwitch.setText("Urdu");
-                    editor.apply();
-                    aSwitch.setChecked(false);
-                    setLanguage(false);
-                }
-            }
-        });
-
-        // for first time
-        if(aSwitch.isChecked()) {
-            setLanguage(true);
-            aSwitch.setText("English");
-        }
-        else {
-            setLanguage(false);
-        }
+        setLanguage(sharedPreferences.getBoolean("value" , false));
+//        aSwitch.setChecked(sharedPreferences.getBoolean("value", false));
+//
+//        aSwitch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (aSwitch.isChecked()) {
+//                    SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
+//                    editor.putBoolean("value", true);
+//                    editor.apply();
+//                    aSwitch.setText("English");
+//                    aSwitch.setChecked(true);
+//                    setLanguage(true);
+//                } else {
+//                    SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
+//                    editor.putBoolean("value", false);
+//                    aSwitch.setText("Urdu");
+//                    editor.apply();
+//                    aSwitch.setChecked(false);
+//                    setLanguage(false);
+//                }
+//            }
+//        });
+//
+//        // for first time
+//        if(aSwitch.isChecked()) {
+//            setLanguage(true);
+//            aSwitch.setText("English");
+//        }
+//        else {
+//            setLanguage(false);
+//        }
 
 
         // language card button
-        cardLanguageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!(aSwitch.isChecked())) {
-                    SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
-                    editor.putBoolean("value", true);
-                    editor.apply();
-                    aSwitch.setText("English");
-                    aSwitch.setChecked(true);
-                    setLanguage(true);
-                    aSwitch.setChecked(true);
-                }
-                else {
-                    SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
-                    editor.putBoolean("value", false);
-                    editor.apply();
-                    aSwitch.setText("Urdu");
-                    aSwitch.setChecked(false);
-                    setLanguage(false);
-                    aSwitch.setChecked(false);
-                }
-            }
-        });
+//        cardLanguageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(!(aSwitch.isChecked())) {
+//                    SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
+//                    editor.putBoolean("value", true);
+//                    editor.apply();
+//                    aSwitch.setText("English");
+//                    aSwitch.setChecked(true);
+//                    setLanguage(true);
+//                    aSwitch.setChecked(true);
+//                }
+//                else {
+//                    SharedPreferences.Editor editor = getSharedPreferences("save", MODE_PRIVATE).edit();
+//                    editor.putBoolean("value", false);
+//                    editor.apply();
+//                    aSwitch.setText("Urdu");
+//                    aSwitch.setChecked(false);
+//                    setLanguage(false);
+//                    aSwitch.setChecked(false);
+//                }
+//            }
+//        });
 
         // share card app
         cardShareButton.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +173,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e) { }
+
+        changeTextCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this , SettingsActivity.class));
+            }
+        });
 
     }
 
