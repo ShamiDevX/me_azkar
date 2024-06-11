@@ -1,6 +1,7 @@
 package com.is360.me_azkar;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -58,7 +59,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
     }
 
     @Override
-    public void onBindViewHolder( final Adapter.viewHolder holder, final int position) {
+    public void onBindViewHolder(final Adapter.viewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         holder.supplication_id.setText(arrayList.get(position).getSupplication_order());
         holder.supplication_repeat.setText("Recite: " + arrayList.get(position).getSupplication_repeat_no() + " time[s]");
@@ -132,7 +133,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
 
     public void whatsappShareIntent(final int position) {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, getDisplayData());
+        intent.putExtra(Intent.EXTRA_TEXT, getDisplayData(position));
         intent.setType("text/plain");
         intent.setPackage("com.whatsapp");
         activity.startActivity(Intent.createChooser(intent, "Share To ..."));
@@ -153,7 +154,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
                     "\n\n" +
                     arrayList.get(position).getREFERENCES_ID() +
                     "\n\n" +
-                    "https://instagram.com/islamstatus360" +
+                    "https://play.google.com/store/apps/details?id=com.is360.me_azkar" +
                     "";
             return data;
         }
@@ -171,7 +172,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
                     "\n\n" +
                     arrayList.get(position).getREFERENCES_ID() +
                     "\n\n" +
-                    "https://instagram.com/islamstatus360" +
+                    "https://play.google.com/store/apps/details?id=com.is360.me_azkar" +
                     "";
             return data;
         }
