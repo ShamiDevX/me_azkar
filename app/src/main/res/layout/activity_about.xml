@@ -260,11 +260,12 @@
                         />
 
                     <ImageView
-                        android:id="@+id/twitter"
+                        android:id="@+id/web"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_margin="10dp"
-                        android:src="@drawable/twitter"
+                        android:src="@drawable/ic_web"
+                        android:padding="5dp"
                         android:background="@drawable/rounded_corner"
                         android:backgroundTint="@color/colorPrimary"
                         />

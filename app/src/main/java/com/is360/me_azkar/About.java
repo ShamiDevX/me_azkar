@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class About extends AppCompatActivity {
 
-    ImageView tiktok, facebook, youtube, instagram, twitter;
+    ImageView tiktok, facebook, youtube, instagram, web;
     CardView whatsappGroup;
     TextView mail,waNumber;
 
@@ -39,41 +39,46 @@ public class About extends AppCompatActivity {
         facebook = findViewById(R.id.facebook);
         youtube = findViewById(R.id.youtube);
         instagram = findViewById(R.id.instagram);
-        twitter = findViewById(R.id.twitter);
+        web = findViewById(R.id.web);
 
 
         tiktok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSocialMedia("https://www.tiktok.com/@islamstatus360", "com.android.chrome");
+//                openSocialMedia("https://www.tiktok.com/@islamstatus360", "com.android.chrome");
+                openSocialMedia("https://tiktok.com/@thenasihun", "com.android.chrome");
             }
         });
 
         facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSocialMedia("https://facebook.com/islamstatus360", "com.android.chrome");
+//                openSocialMedia("https://facebook.com/islamstatus360", "com.android.chrome");
+                openSocialMedia("https://facebook.com/thenasihun", "com.android.chrome");
             }
         });
 
         youtube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSocialMedia("https://youtube.com/islamstatus360", "");
+//                openSocialMedia("https://youtube.com/islamstatus360", "");
+                openSocialMedia("https://youtube.com/@thenasihun", "");
             }
         });
 
         instagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSocialMedia("https://instagram.com/islamstatus360", "");
+//                openSocialMedia("https://instagram.com/islamstatus360", "");
+                openSocialMedia("https://instagram.com/thenasihun", "");
             }
         });
 
-        twitter.setOnClickListener(new View.OnClickListener() {
+        web.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSocialMedia("https://twitter.com/islamstatus360", "");
+//                openSocialMedia("https://twitter.com/islamstatus360", "");
+                openSocialMedia("https://nasihun.com", "");
             }
         });
 
